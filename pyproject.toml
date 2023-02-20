@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "electronics-sstore"
+version = "0.1.0"
+description = ""
+authors = ["user <kosareva.karina2013@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "electronics_sstore"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
