@@ -1,0 +1,4 @@
+.coverage
+.idea/
+tests/__pycache__/
+utils/__pycache__/
