@@ -1,7 +1,7 @@
 import csv
 
 
-class Electronic_store:
+class ElectronicStore:
     discount = 0.85
     all = []
 
@@ -18,7 +18,7 @@ class Electronic_store:
         self.all.append(self)
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Возвращает значения приватного атрибута"""
         return self.__name
 
@@ -30,11 +30,11 @@ class Electronic_store:
         else:
             raise Exception("Длина наименования товара превышает 10 символов.")
 
-    def calculate_total_price(self):
+    def calculate_total_price(self) -> float:
         """ Возвращает общую стоимость конкретного товара в магазине """
         return self.price * self.amount
 
-    def discount_price(self):
+    def discount_price(self) -> float:
         """ Возваращает стоимость товара со скидкой """
         self.price *= self.discount
         return self.price
@@ -46,11 +46,18 @@ class Electronic_store:
             reader = list(csv.reader(file))
             item = []
             for i in range(1, len(reader)):
-                item.append(Electronic_store(reader[i][0], reader[i][1], reader[i][2]))
+                item.append(ElectronicStore(reader[i][0], reader[i][1], reader[i][2]))
         return item
 
     @staticmethod
-    def is_integer(num):
+    def is_integer(num) -> bool:
         """Проверяет, является ли чисто целым"""
         return int(num) == num
 
+    def __repr__(self) -> str:
+        """Возвращает формальное представление объекта"""
+        return f'ElectronicStore({self.__name}, {self.price}, {self.amount})'
+
+    def __str__(self) -> str:
+        """Возвращает удобочитаемое строковое предстваление объекта (название товара)"""
+        return f'{self.__name}'
