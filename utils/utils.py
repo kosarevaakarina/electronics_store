@@ -40,7 +40,7 @@ class ElectronicStore:
         return self.price
 
     @classmethod
-    def instantiate_from_csv(cls, file_csv):
+    def instantiate_from_csv(cls, file_csv) -> list:
         """Считывает данные из csv-файла и создает экземпляры класса"""
         with open(file_csv) as file:
             reader = list(csv.reader(file))
@@ -56,8 +56,37 @@ class ElectronicStore:
 
     def __repr__(self) -> str:
         """Возвращает формальное представление объекта"""
-        return f'ElectronicStore({self.__name}, {self.price}, {self.amount})'
+        return f'{self.__class__.__name__}({self.__name}, {self.price}, {self.amount})'
 
     def __str__(self) -> str:
-        """Возвращает удобочитаемое строковое предстваление объекта (название товара)"""
+        """Возвращает удобочитаемое строковое представление объекта (название товара)"""
         return f'{self.__name}'
+
+    def __add__(self, other) -> int:
+        """Складывает экземпляры класса Phone и Item по количеству товара"""
+        if isinstance(other, ElectronicStore):
+            return self.amount + other.amount
+
+
+class Phone(ElectronicStore):
+    def __init__(self, name, price, amount, number_of_sim):
+        """Инициализация класса"""
+        super().__init__(name, price, amount)
+        self.__number_of_sim = number_of_sim
+
+    @property
+    def number_of_sim(self) -> int:
+        """Возвращает количество SIM"""
+        return self.__number_of_sim
+
+    @number_of_sim.setter
+    def number_of_sim(self, number_of_sim):
+        """Проверяет, что при задании количества сим-карт, это значение было больше 0"""
+        if number_of_sim > 0:
+            self.__number_of_sim = number_of_sim
+        else:
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
+
+    def __repr__(self) -> str:
+        """Возвращает формальное представление объекта"""
+        return f'{self.__class__.__name__}({self.name}, {self.price}, {self.amount}, {self.number_of_sim})'
