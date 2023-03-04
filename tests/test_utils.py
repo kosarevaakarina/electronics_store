@@ -1,12 +1,17 @@
 import pytest
 
-from utils.utils import ElectronicStore
+from utils.utils import ElectronicStore, Phone
 import os
 
 
 @pytest.fixture
 def electronic_store():
     return ElectronicStore("Смартфон", 1000, 20)
+
+
+@pytest.fixture
+def phone():
+    return Phone("iPhone 14", 120_000, 5, 2)
 
 
 def test_electronic_store_init(electronic_store):
@@ -28,7 +33,7 @@ def test_name(electronic_store):
     electronic_store.name = 'Телефон'
     assert electronic_store.name == 'Телефон'
     with pytest.raises(Exception):
-        electronic_store.name = "Длина наименования товара превышает 10 символов."
+        electronic_store.name = "ДлинноеНазвание"
 
 
 def test_instantiate_from_csv(electronic_store):
@@ -51,3 +56,26 @@ def test_repr(electronic_store):
 
 def test_str(electronic_store):
     assert electronic_store.__str__() == 'Смартфон'
+
+
+def test_add(electronic_store):
+    phone = Phone("iPhone 14", 120_000, 5, 2)
+    assert phone + electronic_store == 25
+
+
+def test_phone_init(phone):
+    assert phone.name == "iPhone 14"
+    assert phone.price == 120000
+    assert phone.amount == 5
+    assert phone.number_of_sim == 2
+
+
+def test_phone_number_of_sim(phone):
+    phone.number_of_sim = 3
+    assert phone.number_of_sim == 3
+    with pytest.raises(ValueError):
+        phone.number_of_sim = 0
+
+
+def test_phone_repr(phone):
+    assert repr(phone) == 'Phone(iPhone 14, 120000, 5, 2)'
