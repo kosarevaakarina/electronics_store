@@ -1,6 +1,6 @@
 import pytest
 
-from utils.utils import ElectronicStore, Phone
+from utils.utils import ElectronicStore, Phone, ClassMix, KeyBoard
 import os
 
 
@@ -12,6 +12,11 @@ def electronic_store():
 @pytest.fixture
 def phone():
     return Phone("iPhone 14", 120_000, 5, 2)
+
+
+@pytest.fixture
+def key_board():
+    return KeyBoard('Dark Project KD87A', 9600, 5)
 
 
 def test_electronic_store_init(electronic_store):
@@ -79,3 +84,18 @@ def test_phone_number_of_sim(phone):
 
 def test_phone_repr(phone):
     assert repr(phone) == 'Phone(iPhone 14, 120000, 5, 2)'
+
+
+def test_class_mix_init(key_board):
+    assert key_board.name == 'Dark Project KD87A'
+    assert key_board.price == 9600
+    assert key_board.amount == 5
+
+
+def test_class_mix_language(key_board):
+    assert key_board.language == 'EN'
+
+
+def test_class_mix_change_lang(key_board):
+    key_board.change_lang()
+    assert key_board.language == 'RU'
