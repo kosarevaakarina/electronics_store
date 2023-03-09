@@ -1,7 +1,5 @@
 import pytest
-
-from utils.utils import ElectronicStore, Phone, ClassMix, KeyBoard
-import os
+from electronic_store.utils import ElectronicStore, Phone, KeyBoard
 
 
 @pytest.fixture
@@ -42,7 +40,7 @@ def test_name(electronic_store):
 
 
 def test_instantiate_from_csv(electronic_store):
-    ElectronicStore.instantiate_from_csv(os.path.join("tests", "test.csv"))
+    ElectronicStore.instantiate_from_csv("tests/test.csv")
     item = ElectronicStore.all[-1]
     assert item.name == 'Мышка'
     assert item.price == '50'
@@ -99,3 +97,11 @@ def test_class_mix_language(key_board):
 def test_class_mix_change_lang(key_board):
     key_board.change_lang()
     assert key_board.language == 'RU'
+
+
+def test_file_not_found_error():
+    assert ElectronicStore.instantiate_from_csv("tests.csv") == "Отсутствует файл tests.csv"
+
+
+def test_instantiate_csv_error():
+    assert ElectronicStore.instantiate_from_csv("tests/test_error.csv") == f"Файл tests/test_error.csv поврежден"
