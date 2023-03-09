@@ -1,5 +1,7 @@
 import csv
 
+from electronic_store.exceptions import InstantiateCSVError
+
 
 class ElectronicStore:
     discount = 0.85
@@ -40,14 +42,22 @@ class ElectronicStore:
         return self.price
 
     @classmethod
-    def instantiate_from_csv(cls, file_csv) -> list:
+    def instantiate_from_csv(cls, file_csv) -> list | str:
         """Считывает данные из csv-файла и создает экземпляры класса"""
-        with open(file_csv) as file:
-            reader = list(csv.reader(file))
-            item = []
-            for i in range(1, len(reader)):
-                item.append(ElectronicStore(reader[i][0], reader[i][1], reader[i][2]))
-        return item
+        try:
+            with open(file_csv) as file:
+                reader = list(csv.reader(file))
+                item = []
+                if reader[0] == ['name', 'price', 'quantity']:
+                    for i in range(1, len(reader)):
+                        item.append(ElectronicStore(reader[i][0], reader[i][1], reader[i][2]))
+                else:
+                    raise InstantiateCSVError
+            return item
+        except FileNotFoundError:
+            return f"Отсутствует файл {file_csv}"
+        except InstantiateCSVError:
+            return f"Файл {file_csv} поврежден"
 
     @staticmethod
     def is_integer(num) -> bool:
@@ -114,4 +124,5 @@ class MixinLog:
 
 class KeyBoard(MixinLog, ElectronicStore):
     """Класс для товара 'клавиатура' """
+
 
