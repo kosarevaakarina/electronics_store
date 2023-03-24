@@ -1,4 +1,6 @@
 import pytest
+
+from electronic_store.exceptions import InstantiateCSVError
 from electronic_store.utils import ElectronicStore, Phone, KeyBoard
 
 
@@ -100,8 +102,10 @@ def test_class_mix_change_lang(key_board):
 
 
 def test_file_not_found_error():
-    assert ElectronicStore.instantiate_from_csv("tests.csv") == "Отсутствует файл tests.csv"
+    with pytest.raises(FileNotFoundError):
+        ElectronicStore.instantiate_from_csv("tests.csv")
 
 
 def test_instantiate_csv_error():
-    assert ElectronicStore.instantiate_from_csv("tests/test_error.csv") == f"Файл tests/test_error.csv поврежден"
+    with pytest.raises(InstantiateCSVError):
+        ElectronicStore.instantiate_from_csv("tests/test_error.csv")

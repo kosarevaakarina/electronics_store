@@ -55,9 +55,9 @@ class ElectronicStore:
                     raise InstantiateCSVError
             return item
         except FileNotFoundError:
-            return f"Отсутствует файл {file_csv}"
+            raise FileNotFoundError(f"Файл {file_csv} не найден")
         except InstantiateCSVError:
-            return f"Файл {file_csv} поврежден"
+            raise InstantiateCSVError(f"Файл {file_csv} поврежден")
 
     @staticmethod
     def is_integer(num) -> bool:
