@@ -124,5 +124,3 @@ class MixinLog:
 
 class KeyBoard(MixinLog, ElectronicStore):
     """Класс для товара 'клавиатура' """
-
-
